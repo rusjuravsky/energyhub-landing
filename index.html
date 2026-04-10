@@ -643,51 +643,28 @@ m<!DOCTYPE html>
   .hero h1 .highlight {
     position: relative;
     display: inline-block;
-    color: var(--white);
-    -webkit-text-fill-color: var(--white);
-    font-style: italic;
-    padding: 0 6px;
+    background: linear-gradient(
+      90deg,
+      #ff4400,
+      #ff6b00,
+      #ffb347,
+      #ff6b00,
+      #ff4400,
+      #ff6b00,
+      #ffb347
+    );
+    background-size: 300% 100%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: smoothFlow 6s ease-in-out infinite;
+    filter: drop-shadow(0 0 24px rgba(255, 107, 0, 0.35));
   }
 
-  .hero h1 .highlight::before {
-    content: '';
-    position: absolute;
-    bottom: 4px;
-    left: -2px;
-    right: -2px;
-    height: 38%;
-    background: var(--gradient-vibrant);
-    border-radius: 4px;
-    z-index: -1;
-    opacity: 0;
-    transform: scaleX(0);
-    transform-origin: left;
-    animation: highlightReveal 1s cubic-bezier(0.16, 1, 0.3, 1) 0.8s forwards;
-  }
-
-  .hero h1 .highlight::after {
-    content: '';
-    position: absolute;
-    bottom: 4px;
-    left: -2px;
-    right: -2px;
-    height: 38%;
-    background: var(--gradient-vibrant);
-    border-radius: 4px;
-    z-index: -1;
-    opacity: 0;
-    filter: blur(12px);
-    animation: highlightGlow 3s ease-in-out 1.8s infinite;
-  }
-
-  @keyframes highlightReveal {
-    0% { opacity: 0; transform: scaleX(0); }
-    100% { opacity: 0.9; transform: scaleX(1); }
-  }
-
-  @keyframes highlightGlow {
-    0%, 100% { opacity: 0; }
-    50% { opacity: 0.4; }
+  @keyframes smoothFlow {
+    0% { background-position: 0% center; }
+    50% { background-position: 100% center; }
+    100% { background-position: 0% center; }
   }
 
   .hero-sub {
