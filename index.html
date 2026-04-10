@@ -1,0 +1,2235 @@
+m<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EnergyHub — 4 ключа к твоей энергии</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;0,9..40,800;1,9..40,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --black: #030303;
+    --white: #f5f5f5;
+    --orange: #ff6b00;
+    --orange-light: #ff8a3d;
+    --orange-hot: #ff4400;
+    --orange-glow: rgba(255, 107, 0, 0.3);
+    --gradient-accent: linear-gradient(135deg, #ff4400, #ff6b00, #ff9a44, #ffb347);
+    --gradient-vibrant: linear-gradient(135deg, #ff4400, #ff6b00, #ffb347);
+    --gradient-card: linear-gradient(135deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.01) 100%);
+    --gray-100: #f5f5f5;
+    --gray-200: #e5e5e5;
+    --gray-400: #a3a3a3;
+    --gray-500: #737373;
+    --gray-600: #525252;
+    --gray-800: #161616;
+    --gray-900: #0a0a0a;
+    --radius: 20px;
+    --radius-sm: 12px;
+    --glass-bg: rgba(255, 255, 255, 0.03);
+    --glass-border: rgba(255, 255, 255, 0.07);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    font-family: 'DM Sans', -apple-system, sans-serif;
+    background: var(--black);
+    color: var(--white);
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  ::selection {
+    background: var(--orange);
+    color: var(--black);
+  }
+
+  /* ===== GRAIN OVERLAY ===== */
+  body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    pointer-events: none;
+    opacity: 0.025;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+    background-repeat: repeat;
+    background-size: 128px 128px;
+  }
+
+  /* ===== UTILITIES ===== */
+  .container {
+    max-width: 1120px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+
+  .section {
+    padding: 140px 0;
+    position: relative;
+  }
+
+  .section-label {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    background: var(--gradient-accent);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 20px;
+    display: inline-block;
+  }
+
+  .section-title {
+    font-size: clamp(28px, 3.5vw, 44px);
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    color: var(--white);
+    line-height: 1.15;
+  }
+
+  /* ===== ANIMATIONS ===== */
+  .fade-in {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+                transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .fade-in.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Slide from left */
+  .slide-left {
+    opacity: 0;
+    transform: translateX(-40px);
+    transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+                transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .slide-left.visible { opacity: 1; transform: translateX(0); }
+
+  /* Scale in */
+  .scale-in {
+    opacity: 0;
+    transform: scale(0.9);
+    transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+                transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .scale-in.visible { opacity: 1; transform: scale(1); }
+
+  /* Animated gradient border */
+  @keyframes borderGlow {
+    0%, 100% { opacity: 0.3; }
+    50% { opacity: 0.7; }
+  }
+
+  @keyframes shimmer {
+    0% { background-position: -200% center; }
+    100% { background-position: 200% center; }
+  }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-4px); }
+  }
+
+  @keyframes rotateGradient {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .fade-in, .slide-left, .scale-in {
+      opacity: 1;
+      transform: none;
+      filter: none;
+      transition: none;
+    }
+    .hero-mesh-1, .hero-mesh-2, .hero-mesh-3, .hero-orb {
+      animation: none !important;
+    }
+  }
+
+  /* ===== NAV (GLASSMORPHISM) ===== */
+  nav {
+    position: fixed;
+    top: 12px;
+    left: 16px;
+    right: 16px;
+    z-index: 100;
+    padding: 14px 24px;
+    border-radius: 16px;
+    background: rgba(5, 5, 5, 0.6);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  nav.scrolled {
+    background: rgba(5, 5, 5, 0.85);
+    border-color: rgba(255, 255, 255, 0.08);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+  }
+
+  .nav-inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1120px;
+    margin: 0 auto;
+  }
+
+  .logo {
+    font-size: 20px;
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    color: var(--white);
+    text-decoration: none;
+  }
+
+  .logo span {
+    background: var(--gradient-accent);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .nav-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 24px;
+    background: var(--gradient-vibrant);
+    background-size: 150% 100%;
+    color: var(--black);
+    font-size: 14px;
+    font-weight: 700;
+    text-decoration: none;
+    border-radius: 100px;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    cursor: pointer;
+    box-shadow: 0 2px 12px rgba(255, 107, 0, 0.15);
+  }
+
+  .nav-cta:hover {
+    background: var(--orange-light);
+    box-shadow: 0 4px 24px rgba(255, 107, 0, 0.3);
+    transform: translateY(-1px);
+  }
+
+  /* ===== HERO ===== */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    padding-top: 120px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* Animated gradient mesh — VIBRANT */
+  .hero-mesh {
+    position: absolute;
+    inset: -40px;
+    overflow: hidden;
+    pointer-events: none;
+    transition: transform 0.3s ease-out;
+  }
+
+  .hero-mesh-1 {
+    position: absolute;
+    top: -15%;
+    right: -5%;
+    width: 800px;
+    height: 800px;
+    background: radial-gradient(circle, rgba(255, 68, 0, 0.12) 0%, rgba(255, 107, 0, 0.05) 40%, transparent 65%);
+    animation: meshFloat1 18s ease-in-out infinite;
+    filter: blur(50px);
+  }
+
+  .hero-mesh-2 {
+    position: absolute;
+    bottom: -20%;
+    left: -10%;
+    width: 700px;
+    height: 700px;
+    background: radial-gradient(circle, rgba(255, 154, 68, 0.08) 0%, rgba(255, 107, 0, 0.03) 50%, transparent 65%);
+    animation: meshFloat2 22s ease-in-out infinite;
+    filter: blur(60px);
+  }
+
+  .hero-mesh-3 {
+    position: absolute;
+    top: 20%;
+    left: 35%;
+    width: 500px;
+    height: 500px;
+    background: radial-gradient(circle, rgba(255, 68, 0, 0.06) 0%, transparent 55%);
+    animation: meshFloat3 16s ease-in-out infinite;
+    filter: blur(40px);
+  }
+
+  /* Floating orbs */
+  .hero-orb {
+    position: absolute;
+    border-radius: 50%;
+    pointer-events: none;
+  }
+
+  .hero-orb-1 {
+    top: 15%;
+    right: 8%;
+    width: 120px;
+    height: 120px;
+    background: radial-gradient(circle, rgba(255, 107, 0, 0.12) 0%, transparent 70%);
+    animation: float 10s ease-in-out infinite, meshFloat1 20s ease-in-out infinite;
+    filter: blur(25px);
+  }
+
+  .hero-orb-2 {
+    bottom: 25%;
+    right: 20%;
+    width: 80px;
+    height: 80px;
+    background: radial-gradient(circle, rgba(255, 179, 71, 0.1) 0%, transparent 70%);
+    animation: float 8s ease-in-out infinite 1s, meshFloat2 18s ease-in-out infinite;
+    filter: blur(20px);
+  }
+
+  .hero-orb-3 {
+    top: 40%;
+    left: 5%;
+    width: 60px;
+    height: 60px;
+    background: radial-gradient(circle, rgba(255, 68, 0, 0.1) 0%, transparent 70%);
+    animation: float 9s ease-in-out infinite 0.5s;
+    filter: blur(18px);
+  }
+
+  @keyframes meshFloat1 {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    25% { transform: translate(-20px, 12px) scale(1.03); }
+    50% { transform: translate(-5px, -10px) scale(1.01); }
+    75% { transform: translate(15px, -5px) scale(0.98); }
+  }
+
+  @keyframes meshFloat2 {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    33% { transform: translate(25px, -10px) scale(1.04); }
+    66% { transform: translate(-10px, 15px) scale(0.97); }
+  }
+
+  @keyframes meshFloat3 {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    50% { transform: translate(-30px, 25px) scale(1.05); }
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    grid-template-columns: 1fr 420px;
+    gap: 48px;
+    align-items: center;
+  }
+
+  .hero-text { display: contents; }
+
+  /* ===== HERO ILLUSTRATION ===== */
+  .hero-illustration {
+    position: relative;
+    grid-row: 1 / 6;
+    grid-column: 2;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    animation: float 8s ease-in-out infinite;
+  }
+
+  .phone-mockup {
+    width: 260px;
+    position: relative;
+    filter: drop-shadow(0 20px 60px rgba(255, 107, 0, 0.12));
+  }
+
+  .phone-frame {
+    width: 260px;
+    height: 520px;
+    background: linear-gradient(145deg, #1a1a1a 0%, #0d0d0d 100%);
+    border-radius: 36px;
+    border: 2px solid rgba(255, 255, 255, 0.08);
+    padding: 16px 14px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .phone-frame::before {
+    content: '';
+    position: absolute;
+    top: 12px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 24px;
+    background: #000;
+    border-radius: 12px;
+    z-index: 5;
+  }
+
+  .phone-screen {
+    width: 100%;
+    height: 100%;
+    background: #0e1621;
+    border-radius: 24px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* TG top bar */
+  .tg-topbar {
+    background: #17212b;
+    padding: 40px 12px 10px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+    flex-shrink: 0;
+  }
+
+  .tg-back {
+    color: #6ab3f3;
+    font-size: 16px;
+    flex-shrink: 0;
+    line-height: 1;
+  }
+
+  .tg-avatar {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    background: var(--gradient-vibrant);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .tg-avatar svg { width: 18px; height: 18px; }
+
+  .tg-info { flex: 1; min-width: 0; }
+
+  .tg-name {
+    font-size: 13px;
+    font-weight: 700;
+    color: #fff;
+    line-height: 1.2;
+  }
+
+  .tg-status {
+    font-size: 10px;
+    color: #6ab3f3;
+    font-weight: 500;
+  }
+
+  /* TG messages area */
+  .tg-messages {
+    flex: 1;
+    padding: 10px 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    overflow: hidden;
+  }
+
+  .tg-msg {
+    padding: 8px 10px;
+    font-size: 11px;
+    line-height: 1.45;
+    max-width: 88%;
+    position: relative;
+    animation: msgAppear 0.5s ease both;
+  }
+
+  .tg-msg--bot {
+    background: #182533;
+    color: rgba(255,255,255,0.88);
+    align-self: flex-start;
+    border-radius: 12px 12px 12px 4px;
+  }
+
+  .tg-msg--user {
+    background: #2b5278;
+    color: rgba(255,255,255,0.9);
+    align-self: flex-end;
+    border-radius: 12px 12px 4px 12px;
+  }
+
+  .tg-msg-time {
+    font-size: 9px;
+    color: rgba(255,255,255,0.3);
+    float: right;
+    margin-left: 8px;
+    margin-top: 4px;
+  }
+
+  @keyframes msgAppear {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .tg-msg:nth-child(2) { animation-delay: 0.5s; }
+  .tg-msg:nth-child(3) { animation-delay: 1.0s; }
+  .tg-msg:nth-child(4) { animation-delay: 1.5s; }
+
+  /* TG input bar */
+  .tg-inputbar {
+    background: #17212b;
+    padding: 8px 10px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    border-top: 1px solid rgba(255,255,255,0.04);
+    flex-shrink: 0;
+  }
+
+  .tg-input-field {
+    flex: 1;
+    background: #0e1621;
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 18px;
+    padding: 7px 14px;
+    font-size: 11px;
+    color: rgba(255,255,255,0.3);
+  }
+
+  .tg-send {
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #6ab3f3;
+    flex-shrink: 0;
+  }
+
+  .tg-send svg { width: 16px; height: 16px; }
+
+  /* Floating metric cards */
+  .hero-metric {
+    position: absolute;
+    background: rgba(10, 10, 10, 0.85);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 14px;
+    padding: 12px 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    white-space: nowrap;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+  }
+
+  .hero-metric-icon {
+    width: 34px;
+    height: 34px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .hero-metric-icon svg { width: 18px; height: 18px; }
+
+  .hero-metric-text {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .hero-metric-label {
+    font-size: 10px;
+    font-weight: 600;
+    color: var(--gray-400);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .hero-metric-value {
+    font-size: 16px;
+    font-weight: 800;
+    color: var(--white);
+    letter-spacing: -0.02em;
+  }
+
+  .metric-sleep {
+    top: 30px;
+    right: -30px;
+    animation: float 7s ease-in-out infinite 0.5s;
+  }
+  .metric-sleep .hero-metric-icon { background: rgba(99, 102, 241, 0.15); }
+  .metric-sleep .hero-metric-value { color: #818cf8; }
+
+  .metric-recovery {
+    bottom: 100px;
+    left: -40px;
+    animation: float 6s ease-in-out infinite 1s;
+  }
+  .metric-recovery .hero-metric-icon { background: rgba(34, 197, 94, 0.15); }
+  .metric-recovery .hero-metric-value { color: #4ade80; }
+
+  .metric-protein {
+    bottom: 30px;
+    right: -20px;
+    animation: float 8s ease-in-out infinite 1.5s;
+  }
+  .metric-protein .hero-metric-icon { background: rgba(255, 107, 0, 0.15); }
+  .metric-protein .hero-metric-value { color: var(--orange-light); }
+
+  .hero-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 18px;
+    background: rgba(255, 107, 0, 0.08);
+    border: 1px solid rgba(255, 107, 0, 0.15);
+    border-radius: 100px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--orange);
+    margin-bottom: 36px;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+  }
+
+  .hero-tag-dot {
+    width: 6px;
+    height: 6px;
+    background: var(--orange);
+    border-radius: 50%;
+    animation: pulse 2s infinite;
+    box-shadow: 0 0 8px var(--orange-glow);
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; box-shadow: 0 0 8px var(--orange-glow); }
+    50% { opacity: 0.4; box-shadow: 0 0 2px var(--orange-glow); }
+  }
+
+  .hero h1 {
+    font-size: clamp(42px, 6.5vw, 78px);
+    font-weight: 800;
+    line-height: 1.05;
+    letter-spacing: -0.04em;
+    color: var(--white);
+    margin-bottom: 24px;
+    max-width: 900px;
+  }
+
+  .hero h1 .highlight {
+    background: linear-gradient(135deg, #ff4400, #ff6b00, #ffb347, #ff6b00);
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: shimmer 8s linear infinite;
+    text-shadow: none;
+    position: relative;
+    filter: drop-shadow(0 0 20px rgba(255, 107, 0, 0.4));
+  }
+
+  .hero-sub {
+    font-size: clamp(17px, 2vw, 20px);
+    font-weight: 400;
+    color: var(--gray-400);
+    max-width: 620px;
+    line-height: 1.7;
+    margin-bottom: 48px;
+  }
+
+  .hero-sub strong {
+    color: var(--white);
+    font-weight: 600;
+  }
+
+  .hero-features {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    margin-bottom: 40px;
+    max-width: 640px;
+  }
+
+  .hero-feature {
+    display: flex;
+    align-items: baseline;
+    gap: 14px;
+    font-size: 15px;
+    color: var(--gray-400);
+    line-height: 1.65;
+  }
+
+  .hero-feature strong {
+    color: var(--white);
+    font-weight: 600;
+  }
+
+  .hero-feature-num {
+    flex-shrink: 0;
+    font-size: 11px;
+    font-weight: 800;
+    background: var(--gradient-accent);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1.5px solid rgba(255, 107, 0, 0.25);
+    border-radius: 10px;
+    margin-top: 1px;
+    /* text-fill-color doesn't work in flex centering for all browsers, fallback */
+    color: var(--orange);
+    -webkit-text-fill-color: var(--orange);
+  }
+
+  .hero-quote {
+    display: flex;
+    gap: 20px;
+    align-items: flex-start;
+    margin-top: 40px;
+    margin-bottom: 40px;
+    padding: 28px 32px;
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-left: 3px solid var(--orange);
+    border-radius: var(--radius-sm);
+    max-width: 640px;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+  }
+
+  .hero-quote-avatar svg {
+    width: 48px;
+    height: 48px;
+    opacity: 0.7;
+  }
+
+  .hero-quote-content {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .hero-quote-text {
+    font-size: 15px;
+    color: var(--gray-400);
+    line-height: 1.65;
+    font-style: italic;
+  }
+
+  .hero-quote-author {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--white);
+    letter-spacing: 0.02em;
+  }
+
+  .hero-cta-group {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+
+  /* ===== BUTTONS ===== */
+  @keyframes glowPulse {
+    0%, 100% { box-shadow: 0 4px 20px rgba(255, 107, 0, 0.15); }
+    50% { box-shadow: 0 4px 28px rgba(255, 107, 0, 0.3); }
+  }
+
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 18px 38px;
+    background: var(--orange);
+    color: var(--black);
+    font-size: 16px;
+    font-weight: 700;
+    text-decoration: none;
+    border-radius: 100px;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    border: none;
+    cursor: pointer;
+    position: relative;
+    animation: glowPulse 4s ease-in-out infinite;
+  }
+
+  .btn-primary:hover {
+    background: var(--orange-light);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 40px rgba(255, 107, 0, 0.35);
+    animation: none;
+  }
+
+  .btn-primary:active {
+    transform: translateY(0);
+    box-shadow: 0 4px 16px rgba(255, 107, 0, 0.2);
+  }
+
+  .btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 18px 36px;
+    background: rgba(255, 255, 255, 0.04);
+    color: var(--white);
+    font-size: 16px;
+    font-weight: 600;
+    text-decoration: none;
+    border-radius: 100px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    cursor: pointer;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+  }
+
+  .btn-secondary:hover {
+    border-color: rgba(255, 255, 255, 0.25);
+    background: rgba(255, 255, 255, 0.08);
+    transform: translateY(-1px);
+  }
+
+  .hero-price {
+    margin-top: 20px;
+    font-size: 14px;
+    color: var(--gray-500);
+  }
+
+  .hero-price span { color: var(--white); font-weight: 600; }
+
+  /* ===== DIVIDER ===== */
+  .divider {
+    height: 1px;
+    background: linear-gradient(90deg, transparent 5%, rgba(255, 68, 0, 0.3) 30%, rgba(255, 107, 0, 0.5) 50%, rgba(255, 179, 71, 0.3) 70%, transparent 95%);
+    border: none;
+    margin: 0;
+    position: relative;
+  }
+
+  .divider::after {
+    content: '';
+    position: absolute;
+    inset: -4px 20% -4px 20%;
+    background: linear-gradient(90deg, transparent, rgba(255, 107, 0, 0.08), transparent);
+    filter: blur(8px);
+    pointer-events: none;
+  }
+
+  /* ===== STATEMENT ===== */
+  .statement {
+    padding: 120px 0;
+    text-align: center;
+    position: relative;
+  }
+
+  .statement p {
+    font-size: clamp(22px, 3vw, 34px);
+    font-weight: 300;
+    line-height: 1.5;
+    color: var(--gray-400);
+    max-width: 780px;
+    margin: 0 auto;
+    letter-spacing: -0.01em;
+  }
+
+  .statement p strong {
+    color: var(--white);
+    font-weight: 600;
+  }
+
+  .statement p em {
+    background: var(--gradient-accent);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    font-style: normal;
+    font-weight: 600;
+  }
+
+  /* ===== GLASS CARD BASE ===== */
+  .glass-card {
+    background: var(--gradient-card);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    position: relative;
+    overflow: hidden;
+    transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  /* Animated gradient top border */
+  .glass-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--orange-hot), var(--orange), var(--orange-light), transparent);
+    background-size: 200% 100%;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+    animation: shimmer 6s linear infinite;
+  }
+
+  /* Hover glow aura */
+  .glass-card::after {
+    content: '';
+    position: absolute;
+    inset: -1px;
+    border-radius: var(--radius);
+    background: linear-gradient(135deg, rgba(255,68,0,0.08), transparent 40%, transparent 60%, rgba(255,107,0,0.06));
+    opacity: 0;
+    transition: opacity 0.5s ease;
+    pointer-events: none;
+    z-index: -1;
+  }
+
+  .glass-card:hover::before {
+    opacity: 1;
+  }
+
+  .glass-card:hover::after {
+    opacity: 1;
+  }
+
+  .glass-card:hover {
+    border-color: rgba(255, 107, 0, 0.15);
+    transform: translateY(-6px);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4), 0 0 40px rgba(255, 107, 0, 0.06);
+  }
+
+  /* ===== CHAT CARDS ===== */
+  .day-demo {
+    display: grid;
+    gap: 24px;
+  }
+
+  .chat-card {
+    padding: 36px;
+    cursor: default;
+  }
+
+  .chat-time {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    background: var(--gradient-accent);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 16px;
+  }
+
+  .chat-label {
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--white);
+    margin-bottom: 24px;
+    letter-spacing: -0.02em;
+  }
+
+  .chat-bubble {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 14px;
+    padding: 18px 22px;
+    margin-bottom: 12px;
+    font-size: 15px;
+    color: var(--gray-400);
+    line-height: 1.65;
+  }
+
+  .chat-bubble--bot {
+    border-left: 3px solid var(--orange);
+    background: rgba(255, 107, 0, 0.03);
+  }
+
+  .chat-bubble--user {
+    border-left: 3px solid rgba(255, 255, 255, 0.15);
+    margin-left: 40px;
+  }
+
+  .chat-note {
+    font-size: 14px;
+    color: var(--gray-500);
+    margin-top: 16px;
+    font-style: italic;
+  }
+
+  /* ===== 4 KEYS — BENTO GRID ===== */
+  .keys-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: auto auto;
+    gap: 16px;
+    margin-top: 56px;
+  }
+
+  .key-card {
+    padding: 40px;
+    cursor: default;
+  }
+
+  .key-card:first-child {
+    grid-row: 1 / 3;
+  }
+
+  .key-card:first-child .key-number {
+    font-size: 80px;
+  }
+
+  .key-number {
+    font-size: 56px;
+    font-weight: 800;
+    background: var(--gradient-accent);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    opacity: 0.2;
+    line-height: 1;
+    margin-bottom: 16px;
+    letter-spacing: -0.04em;
+  }
+
+  .key-title {
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--white);
+    margin-bottom: 14px;
+    letter-spacing: -0.02em;
+  }
+
+  .key-desc {
+    font-size: 15px;
+    color: var(--gray-400);
+    line-height: 1.7;
+  }
+
+  /* ===== RECOGNIZE ===== */
+  .recognize-list {
+    display: grid;
+    gap: 0;
+    margin-top: 48px;
+  }
+
+  .recognize-item {
+    padding: 24px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    display: flex;
+    gap: 20px;
+    align-items: flex-start;
+    transition: padding-left 0.3s ease;
+  }
+
+  .recognize-item:first-child {
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+  }
+
+  .recognize-item:hover {
+    padding-left: 8px;
+  }
+
+  .recognize-icon {
+    flex-shrink: 0;
+    width: 8px;
+    height: 8px;
+    background: var(--orange);
+    border-radius: 50%;
+    margin-top: 10px;
+    box-shadow: 0 0 10px var(--orange-glow);
+    transition: box-shadow 0.3s ease;
+  }
+
+  .recognize-item:hover .recognize-icon {
+    box-shadow: 0 0 16px rgba(255, 107, 0, 0.4);
+  }
+
+  .recognize-text {
+    font-size: 17px;
+    color: var(--gray-400);
+    line-height: 1.6;
+  }
+
+  /* ===== HOW IT WORKS ===== */
+  .how-grid {
+    display: grid;
+    gap: 64px;
+    margin-top: 56px;
+  }
+
+  .how-block-title {
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--white);
+    margin-bottom: 32px;
+    letter-spacing: -0.02em;
+    padding-left: 20px;
+    border-left: 3px solid var(--orange);
+  }
+
+  .steps {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+  }
+
+  .step {
+    background: var(--gradient-card);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-sm);
+    padding: 24px;
+    position: relative;
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    overflow: hidden;
+  }
+
+  .step::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: var(--gradient-vibrant);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .step:hover::before {
+    transform: scaleX(1);
+  }
+
+  .step:hover {
+    border-color: rgba(255, 107, 0, 0.15);
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+  }
+
+  .step-num {
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    background: var(--gradient-accent);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 12px;
+  }
+
+  .step-action {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--white);
+    margin-bottom: 8px;
+    line-height: 1.4;
+  }
+
+  .step-result {
+    font-size: 13px;
+    color: var(--gray-500);
+    line-height: 1.5;
+  }
+
+  /* ===== RESULTS ===== */
+  .results-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+    margin-top: 56px;
+  }
+
+  .result-card {
+    padding: 40px;
+    cursor: default;
+  }
+
+  .result-card--highlight {
+    grid-column: 1 / -1;
+    background: linear-gradient(135deg, rgba(255, 107, 0, 0.06) 0%, rgba(255,255,255,0.02) 100%) !important;
+    border-color: rgba(255, 107, 0, 0.12) !important;
+    text-align: center;
+  }
+
+  .result-period {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    background: var(--gradient-accent);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 20px;
+    display: inline-block;
+  }
+
+  .result-item {
+    margin-bottom: 16px;
+  }
+
+  .result-item:last-child { margin-bottom: 0; }
+
+  .result-item strong {
+    color: var(--white);
+    font-weight: 600;
+  }
+
+  .result-item p {
+    font-size: 15px;
+    color: var(--gray-400);
+    line-height: 1.65;
+  }
+
+  .result-card--highlight p {
+    font-size: 20px;
+    font-weight: 400;
+    color: var(--gray-400);
+    max-width: 700px;
+    margin: 0 auto;
+    line-height: 1.7;
+  }
+
+  .result-card--highlight strong {
+    color: var(--white);
+  }
+
+  .result-card--highlight em {
+    background: var(--gradient-accent);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    font-style: normal;
+    font-weight: 600;
+  }
+
+  /* ===== FAQ ===== */
+  .faq-list {
+    margin-top: 56px;
+  }
+
+  .faq-item {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    cursor: pointer;
+  }
+
+  .faq-item:first-child {
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+  }
+
+  .faq-q {
+    padding: 28px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+  }
+
+  .faq-q h3 {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--white);
+    letter-spacing: -0.01em;
+    transition: color 0.3s ease;
+  }
+
+  .faq-item:hover .faq-q h3 {
+    color: var(--orange-light);
+  }
+
+  .faq-toggle {
+    flex-shrink: 0;
+    width: 34px;
+    height: 34px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    color: var(--gray-400);
+    font-size: 20px;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .faq-item.open .faq-toggle {
+    background: var(--orange);
+    border-color: var(--orange);
+    color: var(--black);
+    transform: rotate(45deg);
+    box-shadow: 0 0 20px var(--orange-glow);
+  }
+
+  .faq-a {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+                padding 0.4s ease;
+  }
+
+  .faq-item.open .faq-a {
+    max-height: 300px;
+    padding-bottom: 28px;
+  }
+
+  .faq-a p {
+    font-size: 15px;
+    color: var(--gray-400);
+    line-height: 1.7;
+    max-width: 640px;
+  }
+
+  /* ===== COMPETITORS ===== */
+  .comp-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-top: 56px;
+  }
+
+  .comp-card {
+    padding: 36px;
+    cursor: default;
+  }
+
+  .comp-name {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--gray-500);
+    margin-bottom: 16px;
+    opacity: 0.6;
+  }
+
+  .comp-problem {
+    font-size: 15px;
+    color: var(--gray-500);
+    line-height: 1.65;
+    margin-bottom: 20px;
+  }
+
+  .comp-solution {
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--white);
+    line-height: 1.65;
+    padding-top: 20px;
+    border-top: 1px solid rgba(255, 107, 0, 0.15);
+  }
+
+  .comp-solution span {
+    background: var(--gradient-accent);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    font-weight: 700;
+  }
+
+  /* ===== CTA FINAL ===== */
+  .cta-final {
+    padding: 140px 0;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .cta-final::before {
+    content: '';
+    position: absolute;
+    bottom: -10%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 1000px;
+    height: 600px;
+    background: radial-gradient(ellipse, rgba(255, 68, 0, 0.18) 0%, rgba(255, 107, 0, 0.08) 40%, transparent 65%);
+    pointer-events: none;
+    filter: blur(50px);
+    animation: meshFloat2 12s ease-in-out infinite;
+  }
+
+  .cta-final::after {
+    content: '';
+    position: absolute;
+    top: 10%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 600px;
+    height: 300px;
+    background: radial-gradient(ellipse, rgba(255, 154, 68, 0.1) 0%, transparent 60%);
+    pointer-events: none;
+    filter: blur(40px);
+    animation: meshFloat3 8s ease-in-out infinite;
+  }
+
+  .cta-final h2 {
+    font-size: clamp(32px, 5vw, 56px);
+    font-weight: 800;
+    line-height: 1.1;
+    letter-spacing: -0.04em;
+    color: var(--white);
+    margin-bottom: 20px;
+    position: relative;
+  }
+
+  .cta-final-sub {
+    font-size: 18px;
+    color: var(--gray-400);
+    max-width: 520px;
+    margin: 0 auto 40px;
+    line-height: 1.65;
+  }
+
+  .cta-final .btn-primary {
+    padding: 22px 52px;
+    font-size: 18px;
+  }
+
+  .cta-final-note {
+    margin-top: 20px;
+    font-size: 14px;
+    color: var(--gray-500);
+  }
+
+  .cta-final-note span {
+    background: var(--gradient-accent);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    font-weight: 700;
+  }
+
+  .cta-tagline {
+    margin-top: 60px;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--gray-500);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+  }
+
+  /* ===== FOOTER ===== */
+  footer {
+    padding: 40px 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.04);
+    text-align: center;
+  }
+
+  footer p {
+    font-size: 13px;
+    color: var(--gray-600);
+  }
+
+  /* ===== HERO BANNER IMAGE ===== */
+  .hero-banner-img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.18;
+    pointer-events: none;
+    z-index: 0;
+    mask-image: linear-gradient(to bottom, transparent 0%, black 20%, black 70%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 20%, black 70%, transparent 100%);
+  }
+
+  /* ===== KEY CARD ICONS ===== */
+  .key-icon {
+    width: 64px;
+    height: 64px;
+    border-radius: 16px;
+    margin-bottom: 16px;
+    overflow: hidden;
+  }
+
+  .key-icon img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  /* ===== DASHBOARD IMAGE ===== */
+  .results-dashboard {
+    margin-top: 32px;
+    border-radius: var(--radius);
+    overflow: hidden;
+    border: 1px solid var(--glass-border);
+  }
+
+  .results-dashboard img {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  /* ===== TESTIMONIALS ===== */
+  .testimonials-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-top: 56px;
+  }
+
+  .testimonial-card {
+    padding: 36px;
+    cursor: default;
+  }
+
+  .testimonial-header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 20px;
+  }
+
+  .testimonial-avatar {
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    overflow: hidden;
+    flex-shrink: 0;
+    border: 2px solid rgba(255, 107, 0, 0.2);
+  }
+
+  .testimonial-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .testimonial-info {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .testimonial-name {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--white);
+  }
+
+  .testimonial-role {
+    font-size: 13px;
+    color: var(--gray-500);
+  }
+
+  .testimonial-text {
+    font-size: 15px;
+    color: var(--gray-400);
+    line-height: 1.7;
+    font-style: italic;
+  }
+
+  .testimonial-metric {
+    margin-top: 20px;
+    padding-top: 16px;
+    border-top: 1px solid rgba(255, 107, 0, 0.12);
+    font-size: 14px;
+    font-weight: 600;
+  }
+
+  .testimonial-metric span {
+    background: var(--gradient-accent);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* ===== RESPONSIVE ===== */
+  @media (max-width: 768px) {
+    nav {
+      top: 8px;
+      left: 8px;
+      right: 8px;
+      padding: 12px 16px;
+    }
+
+    .section { padding: 100px 0; }
+
+    .keys-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .key-card:first-child {
+      grid-row: auto;
+    }
+
+    .results-grid { grid-template-columns: 1fr; }
+
+    .comp-grid { grid-template-columns: 1fr; }
+
+    .testimonials-grid { grid-template-columns: 1fr; }
+
+    .steps {
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .hero-content {
+      grid-template-columns: 1fr;
+    }
+
+    .hero-illustration {
+      grid-row: auto;
+      grid-column: 1;
+      margin-top: 40px;
+    }
+
+    .hero-text { display: contents; }
+
+    .metric-sleep { right: -10px; }
+    .metric-recovery { left: -10px; }
+    .metric-protein { right: 0; }
+
+    .hero-cta-group { flex-direction: column; align-items: flex-start; }
+
+    .chat-bubble--user { margin-left: 20px; }
+  }
+
+  @media (max-width: 480px) {
+    .steps { grid-template-columns: 1fr; }
+    .hero h1 { letter-spacing: -0.03em; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="nav">
+  <div class="nav-inner">
+    <a href="#" class="logo">Energy<span>Hub</span></a>
+    <a href="#cta" class="nav-cta">Запустить бота <span aria-hidden="true">&rarr;</span></a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero section">
+  <img src="images/hero-banner.png" alt="" class="hero-banner-img" loading="eager">
+  <div class="hero-mesh">
+    <div class="hero-mesh-1"></div>
+    <div class="hero-mesh-2"></div>
+    <div class="hero-mesh-3"></div>
+    <div class="hero-orb hero-orb-1"></div>
+    <div class="hero-orb hero-orb-2"></div>
+    <div class="hero-orb hero-orb-3"></div>
+  </div>
+  <div class="container hero-content">
+    <div class="hero-tag"><span class="hero-tag-dot"></span> AI-ассистент в Telegram</div>
+    <h1 class="fade-in">
+      Хочешь снова просыпаться<br>с энергией, как в <span class="highlight">18?</span>
+    </h1>
+    <p class="hero-sub fade-in">Telegram-бот, который каждое утро говорит, что делать с тренировкой, едой и сном &mdash; <strong>на основе твоих реальных данных.</strong></p>
+    <div class="hero-features fade-in">
+      <div class="hero-feature">
+        <span class="hero-feature-num">01</span>
+        <span>Поможем систематизировать твои <strong>гормоны, сон, питание и спорт</strong> &mdash; четыре вещи, от которых зависит твоя энергия</span>
+      </div>
+      <div class="hero-feature">
+        <span class="hero-feature-num">02</span>
+        <span>Будем присылать <strong>персональные рекомендации</strong> каждый день на основе твоих реальных данных, а не общих советов из интернета</span>
+      </div>
+      <div class="hero-feature">
+        <span class="hero-feature-num">03</span>
+        <span>Соберём все твои <strong>анализы, сон, дневник питания и спорта</strong> в одном месте с синхронизацией Whoop и Oura &mdash; в удобном формате AI-бота в Telegram</span>
+      </div>
+    </div>
+
+    <div class="hero-cta-group fade-in">
+      <a href="#cta" class="btn-primary">Попробовать за 299 &#8381; <span aria-hidden="true">&rarr;</span></a>
+      <a href="#day" class="btn-secondary">Как это работает</a>
+    </div>
+    <p class="hero-price fade-in">Разовый платёж. Без подписки. Без рекламы.</p>
+
+    <!-- HERO ILLUSTRATION -->
+    <div class="hero-illustration fade-in">
+      <div class="phone-mockup">
+        <div class="phone-frame">
+          <div class="phone-screen">
+            <!-- TG top bar -->
+            <div class="tg-topbar">
+              <div class="tg-back">&larr;</div>
+              <div class="tg-avatar">
+                <svg viewBox="0 0 24 24" fill="none" stroke="#030303" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+              </div>
+              <div class="tg-info">
+                <div class="tg-name">EnergyHub Bot</div>
+                <div class="tg-status">bot</div>
+              </div>
+            </div>
+            <!-- TG messages -->
+            <div class="tg-messages">
+              <div class="tg-msg tg-msg--bot">Доброе утро! Сон: 7ч 20м. Recovery 72%&nbsp;&mdash; можно среднюю тренировку. <span class="tg-msg-time">7:30</span></div>
+              <div class="tg-msg tg-msg--bot">Не забудь: 180г белка, 80г жиров. Витамин&nbsp;D&nbsp;&mdash; 3-й день без него. <span class="tg-msg-time">7:30</span></div>
+              <div class="tg-msg tg-msg--user">На обед курица с рисом, потом зал <span class="tg-msg-time">12:41</span></div>
+              <div class="tg-msg tg-msg--bot">Записал! Белок: 52г из 180г. После зала напиши результат. <span class="tg-msg-time">12:41</span></div>
+            </div>
+            <!-- TG input -->
+            <div class="tg-inputbar">
+              <div class="tg-input-field">Сообщение...</div>
+              <div class="tg-send">
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Floating metrics -->
+        <div class="hero-metric metric-sleep">
+          <div class="hero-metric-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#818cf8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+          </div>
+          <div class="hero-metric-text">
+            <span class="hero-metric-label">Сон</span>
+            <span class="hero-metric-value">7ч 20м</span>
+          </div>
+        </div>
+
+        <div class="hero-metric metric-recovery">
+          <div class="hero-metric-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+          </div>
+          <div class="hero-metric-text">
+            <span class="hero-metric-label">Recovery</span>
+            <span class="hero-metric-value">72%</span>
+          </div>
+        </div>
+
+        <div class="hero-metric metric-protein">
+          <div class="hero-metric-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#ff8a3d" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+          </div>
+          <div class="hero-metric-text">
+            <span class="hero-metric-label">Белок</span>
+            <span class="hero-metric-value">52 / 180г</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STATEMENT -->
+<hr class="divider">
+<div class="statement container fade-in">
+  <p>
+    Хорошая новость: тебе не нужно 4 приложения.<br>
+    Нужно просто контролировать <em>4 ключа</em> &mdash; и делать это <strong>системно</strong>,<br>
+    а не по ощущениям. <strong>EnergyHub поможет.</strong>
+  </p>
+</div>
+<hr class="divider">
+
+<!-- EXPERT QUOTE -->
+<div class="statement container fade-in" style="padding: 80px 0;">
+  <div class="hero-quote" style="margin: 0 auto; max-width: 780px;">
+    <div class="hero-quote-avatar">
+      <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="24" cy="24" r="24" fill="#1a1a1a"/>
+        <circle cx="24" cy="18" r="8" fill="#525252"/>
+        <ellipse cx="24" cy="38" rx="14" ry="10" fill="#525252"/>
+      </svg>
+    </div>
+    <div class="hero-quote-content">
+      <p class="hero-quote-text">&laquo;Твоя энергия, состояние и настроение полностью зависят от твоих гормонов. А гормоны &mdash; от сна, питания, спорта и образа жизни. Контролируй эти четыре вещи системно &mdash; и ты удивишься, как сильно изменится твоё самочувствие.&raquo;</p>
+      <p class="hero-quote-author">Доктор Эндрю Хуберман, нейробиолог</p>
+    </div>
+  </div>
+</div>
+
+<!-- DAY DEMO -->
+<section class="section" id="day">
+  <div class="container">
+    <p class="section-label fade-in">Как выглядит твой день</p>
+    <div class="day-demo">
+      <div class="glass-card chat-card fade-in">
+        <div class="chat-time">Утро, 7:30</div>
+        <div class="chat-label">Ты просыпаешься &mdash; в Telegram уже сообщение</div>
+        <div class="chat-bubble chat-bubble--bot">
+          Доброе утро! Сон: 7ч 20мин. Recovery 72% &mdash; можно среднюю тренировку.<br>
+          Сегодня не забудь съесть 180г белка и 80г жиров. И про витамин D &mdash; третий день без него.
+        </div>
+        <p class="chat-note">Не нужно открывать кучу приложений и гуглить. Всё уже собрано и проанализировано в одном сообщении.</p>
+      </div>
+      <div class="glass-card chat-card fade-in">
+        <div class="chat-time">Вечер, 21:00</div>
+        <div class="chat-label">Вечерняя рефлексия &mdash; тело и разум</div>
+        <div class="chat-bubble chat-bubble--bot">
+          Как прошёл день? Расскажи что ел и как тренировался. И напиши одну вещь, за которую ты сегодня благодарен.
+        </div>
+        <div class="chat-bubble chat-bubble--user">
+          На обед курица с рисом, на ужин творог с ягодами. Тренировка &mdash; жим 80 на 8, присед 100 на 6. Благодарен за хорошую погоду и продуктивное утро.
+        </div>
+        <div class="chat-bubble chat-bubble--bot">
+          Записал. Белок: 175г из 180г &mdash; почти идеально. Жим +5кг за месяц &mdash; прогресс! Благодарность сохранена &mdash; уже 12 дней подряд без пропусков.
+        </div>
+        <p class="chat-note">Два сообщения в день. Утром &mdash; что делать. Вечером &mdash; рефлексия. Тренируем не только тело, но и разум.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 4 KEYS — BENTO GRID -->
+<section class="section" style="background: var(--gray-900);">
+  <div class="container">
+    <p class="section-label fade-in">Система</p>
+    <h2 class="section-title fade-in">EnergyHub — 4 ключа к твоей энергии</h2>
+    <div class="keys-grid">
+      <div class="glass-card key-card fade-in">
+        <div class="key-icon"><img src="images/icon-sleep.png" alt="Сон" loading="lazy"></div>
+        <div class="key-number">01</div>
+        <div class="key-title">Сон — фундамент всего</div>
+        <p class="key-desc">Без нормального сна не работает ничего. Данные из Whoop/Oura превращаются в решения. Recovery 45%? &laquo;Лёгкая тренировка.&raquo; Recovery 85%? &laquo;Можно ставить рекорды.&raquo; Каждое утро — готовый план.</p>
+      </div>
+      <div class="glass-card key-card fade-in">
+        <div class="key-icon"><img src="images/icon-nutrition.png" alt="Питание" loading="lazy"></div>
+        <div class="key-number">02</div>
+        <div class="key-title">Питание — топливо биоробота</div>
+        <p class="key-desc">Сфотографируй еду, напиши текстом или надиктуй &mdash; бот посчитает БЖУ за секунды. Вечером скажет: &laquo;Осталось 40г белка &mdash; добавь творог.&raquo;</p>
+      </div>
+      <div class="glass-card key-card fade-in">
+        <div class="key-icon"><img src="images/icon-sport.png" alt="Спорт" loading="lazy"></div>
+        <div class="key-number">03</div>
+        <div class="key-title">Спорт — с учётом восстановления</div>
+        <p class="key-desc">Плохой сон + высокий кортизол = &laquo;Не день для рекордов.&raquo; Хороший recovery + достаточно белка = &laquo;Можно прибавить вес.&raquo;</p>
+      </div>
+      <div class="glass-card key-card fade-in">
+        <div class="key-icon"><img src="images/icon-hormones.png" alt="Гормоны" loading="lazy"></div>
+        <div class="key-number">04</div>
+        <div class="key-title">Гормоны — итоговый показатель</div>
+        <p class="key-desc">Сфотографируй анализы &mdash; бот распознает значения, покажет динамику и объяснит простым языком что изменилось и почему.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- RECOGNIZE -->
+<section class="section">
+  <div class="container">
+    <p class="section-label fade-in">Узнаёшь себя?</p>
+    <h2 class="section-title fade-in" style="max-width: 700px;">
+      Помнишь, как в 18 лет ты просыпался с энергией и не думал о восстановлении?
+    </h2>
+    <div class="recognize-list">
+      <div class="recognize-item fade-in">
+        <div class="recognize-icon"></div>
+        <p class="recognize-text">Тренируешься 4-5 раз в неделю, но результаты встали &mdash; и непонятно, дело в перетрене, питании или сне?</p>
+      </div>
+      <div class="recognize-item fade-in">
+        <div class="recognize-icon"></div>
+        <p class="recognize-text">Чувствуешь упадок энергии после 30 &mdash; и списываешь на возраст, хотя дело в кортизоле, недосыпе или дефиците белка?</p>
+      </div>
+      <div class="recognize-item fade-in">
+        <div class="recognize-icon"></div>
+        <p class="recognize-text">Знаешь, что нужно следить за питанием, но вести дневник в отдельном приложении &mdash; это 5 минут мучений на каждый приём пищи?</p>
+      </div>
+      <div class="recognize-item fade-in">
+        <div class="recognize-icon"></div>
+        <p class="recognize-text">Носишь Whoop/Oura, видишь красивые графики &mdash; но не понимаешь, что конкретно менять в жизни?</p>
+      </div>
+      <div class="recognize-item fade-in">
+        <div class="recognize-icon"></div>
+        <p class="recognize-text">Читаешь про биохакинг, но советы противоречат друг другу &mdash; один блогер говорит одно, другой обратное?</p>
+      </div>
+      <div class="recognize-item fade-in">
+        <div class="recognize-icon"></div>
+        <p class="recognize-text">Понимаешь, что сон, еда, спорт и гормоны связаны &mdash; но нет единой системы, чтобы видеть всю картину?</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="section" style="background: var(--gray-900);">
+  <div class="container">
+    <p class="section-label fade-in">Как это работает</p>
+    <h2 class="section-title fade-in">EnergyHub систематизирует твою энергию</h2>
+    <div class="how-grid">
+
+      <div class="fade-in">
+        <div class="how-block-title">Контролируй сон</div>
+        <div class="steps">
+          <div class="step">
+            <div class="step-num">01</div>
+            <div class="step-action">Whoop/Oura передают данные</div>
+            <div class="step-result">Бот видит сон, HRV, recovery &mdash; без ручного ввода</div>
+          </div>
+          <div class="step">
+            <div class="step-num">02</div>
+            <div class="step-action">Утреннее сообщение</div>
+            <div class="step-result">&laquo;Recovery 72% &mdash; можно среднюю тренировку&raquo;</div>
+          </div>
+          <div class="step">
+            <div class="step-num">03</div>
+            <div class="step-action">Отслеживание трендов</div>
+            <div class="step-result">&laquo;3 ночи deep sleep &lt;1 часа &mdash; вот что исправить&raquo;</div>
+          </div>
+          <div class="step">
+            <div class="step-num">04</div>
+            <div class="step-action">Связь с остальным</div>
+            <div class="step-result">&laquo;Сон лучше &rarr; кортизол ниже &rarr; энергия выше&raquo;</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="fade-in">
+        <div class="how-block-title">Контролируй питание</div>
+        <div class="steps">
+          <div class="step">
+            <div class="step-num">01</div>
+            <div class="step-action">Запиши как удобно</div>
+            <div class="step-result">Фото, текст или голос &mdash; AI сам посчитает БЖУ</div>
+          </div>
+          <div class="step">
+            <div class="step-num">02</div>
+            <div class="step-action">Бот следит за балансом</div>
+            <div class="step-result">&laquo;Осталось 40г белка &mdash; добавь творог на ужин&raquo;</div>
+          </div>
+          <div class="step">
+            <div class="step-num">03</div>
+            <div class="step-action">Рекомендации под цели</div>
+            <div class="step-result">Жиросжигание, набор, энергия &mdash; план корректируется</div>
+          </div>
+          <div class="step">
+            <div class="step-num">04</div>
+            <div class="step-action">Связь еды с энергией</div>
+            <div class="step-result">&laquo;Дефицит белка 3 дня &rarr; recovery падает&raquo;</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="fade-in">
+        <div class="how-block-title">Контролируй тренировки</div>
+        <div class="steps">
+          <div class="step">
+            <div class="step-num">01</div>
+            <div class="step-action">Утренняя рекомендация</div>
+            <div class="step-result">&laquo;Recovery 78% &mdash; средняя тренировка. Верх тела&raquo;</div>
+          </div>
+          <div class="step">
+            <div class="step-num">02</div>
+            <div class="step-action">Запиши тренировку</div>
+            <div class="step-result">Текстом, голосом или фото &mdash; как удобнее</div>
+          </div>
+          <div class="step">
+            <div class="step-num">03</div>
+            <div class="step-action">Отслеживание прогресса</div>
+            <div class="step-result">&laquo;Жим +5кг за 4 недели. Присед &mdash; стагнация&raquo;</div>
+          </div>
+          <div class="step">
+            <div class="step-num">04</div>
+            <div class="step-action">Корректировка нагрузки</div>
+            <div class="step-result">&laquo;Плохой сон = снижаем объём на 20%&raquo;</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="fade-in">
+        <div class="how-block-title">Измеряй результат &mdash; гормоны</div>
+        <div class="steps">
+          <div class="step">
+            <div class="step-num">01</div>
+            <div class="step-action">Сдай анализы через 8 недель</div>
+            <div class="step-result">Сфотографируй бланк &mdash; бот распознает значения</div>
+          </div>
+          <div class="step">
+            <div class="step-num">02</div>
+            <div class="step-action">Динамика на графике</div>
+            <div class="step-result">&laquo;Тестостерон +15% за 2 месяца. Кортизол снизился&raquo;</div>
+          </div>
+          <div class="step">
+            <div class="step-num">03</div>
+            <div class="step-action">Объяснение причин</div>
+            <div class="step-result">&laquo;Сон +1 час, белок в норме, меньше перетрена&raquo;</div>
+          </div>
+          <div class="step">
+            <div class="step-num">04</div>
+            <div class="step-action">Новый протокол</div>
+            <div class="step-result">План на следующие 8 недель с учётом результатов</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- RESULTS -->
+<section class="section">
+  <div class="container">
+    <p class="section-label fade-in">К чему ты придёшь</p>
+    <h2 class="section-title fade-in">Результат, который можно измерить</h2>
+    <div class="results-grid">
+      <div class="glass-card result-card fade-in">
+        <div class="result-period">Через 4 недели</div>
+        <div class="result-item">
+          <p><strong>Чувствуешь контроль</strong> &mdash; впервые видишь все четыре ключа в одном месте</p>
+        </div>
+        <div class="result-item">
+          <p><strong>Экономишь время</strong> &mdash; 2 минуты в день вместо 20 минут в 4 приложениях</p>
+        </div>
+        <div class="result-item">
+          <p><strong>Энергия растёт</strong> &mdash; сон, еда и нагрузка наконец-то работают как система</p>
+        </div>
+      </div>
+      <div class="glass-card result-card fade-in">
+        <div class="result-period">Через 8 недель</div>
+        <div class="result-item">
+          <p><strong>Анализы подтверждают</strong> &mdash; пересдаёшь гормоны и видишь реальные изменения</p>
+        </div>
+        <div class="result-item">
+          <p><strong>Плато пробито</strong> &mdash; нагрузка подстроена под восстановление</p>
+        </div>
+        <div class="result-item">
+          <p><strong>Ощущение 18 лет</strong> &mdash; просыпаешься с энергией и знаешь почему</p>
+        </div>
+      </div>
+      <div class="glass-card result-card result-card--highlight fade-in">
+        <p>
+          Ты <strong>управляешь тем, что измеряешь</strong>. Не по ощущениям, а по данным.
+          Не по чужим советам из YouTube, а по <em>персональным рекомендациям</em>,
+          которые учитывают твой сон прошлой ночью, твой белок за сегодня
+          и твой кортизол из последних анализов.
+        </p>
+        <div class="results-dashboard fade-in" style="margin-top: 32px;">
+          <img src="images/dashboard.png" alt="Дашборд с результатами: Recovery, HRV, качество сна" loading="lazy">
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="section">
+  <div class="container">
+    <p class="section-label fade-in">Отзывы</p>
+    <h2 class="section-title fade-in">Что говорят наши пользователи</h2>
+    <div class="testimonials-grid">
+      <div class="glass-card testimonial-card fade-in">
+        <div class="testimonial-header">
+          <div class="testimonial-avatar"><img src="images/avatar-1.png" alt="Андрей К." loading="lazy"></div>
+          <div class="testimonial-info">
+            <div class="testimonial-name">Андрей К.</div>
+            <div class="testimonial-role">IT-директор, 36 лет</div>
+          </div>
+        </div>
+        <p class="testimonial-text">&laquo;С EnergyHub я наконец-то понял, почему после 8 часов сна чувствовал себя разбитым. Оказалось, дело в deep sleep &mdash; он был ниже часа. За месяц исправил это, и разница колоссальная.&raquo;</p>
+        <div class="testimonial-metric"><span>Deep sleep: 45 мин &rarr; 1ч 20 мин</span></div>
+      </div>
+      <div class="glass-card testimonial-card fade-in">
+        <div class="testimonial-header">
+          <div class="testimonial-avatar"><img src="images/avatar-2.png" alt="Максим Р." loading="lazy"></div>
+          <div class="testimonial-info">
+            <div class="testimonial-name">Максим Р.</div>
+            <div class="testimonial-role">Предприниматель, 42 года</div>
+          </div>
+        </div>
+        <p class="testimonial-text">&laquo;Носил Whoop полгода &mdash; смотрел на графики и не понимал, что с ними делать. EnergyHub превратил цифры в конкретные действия. Теперь recovery стабильно выше 70%.&raquo;</p>
+        <div class="testimonial-metric"><span>Recovery: 55% &rarr; 72% за 6 недель</span></div>
+      </div>
+      <div class="glass-card testimonial-card fade-in">
+        <div class="testimonial-header">
+          <div class="testimonial-avatar"><img src="images/avatar-3.png" alt="Дмитрий В." loading="lazy"></div>
+          <div class="testimonial-info">
+            <div class="testimonial-name">Дмитрий В.</div>
+            <div class="testimonial-role">Разработчик, 29 лет</div>
+          </div>
+        </div>
+        <p class="testimonial-text">&laquo;Перепробовал кучу трекеров питания &mdash; везде нужно вбивать каждый продукт вручную. Здесь просто пишу &laquo;курица с рисом&raquo; и всё. Плюс бот сам напоминает про белок.&raquo;</p>
+        <div class="testimonial-metric"><span>Белок в норме: 3 дня/нед &rarr; 6 дней/нед</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="section" style="background: var(--gray-900);">
+  <div class="container">
+    <p class="section-label fade-in">Сомнения?</p>
+    <h2 class="section-title fade-in">Отвечаем честно</h2>
+    <div class="faq-list">
+      <div class="faq-item fade-in">
+        <div class="faq-q">
+          <h3>&laquo;AI не может заменить врача&raquo;</h3>
+          <div class="faq-toggle">+</div>
+        </div>
+        <div class="faq-a">
+          <p>Верно &mdash; и мы не пытаемся. EnergyHub даёт рекомендации по образу жизни: питание, сон, нагрузка. При критических отклонениях в анализах &mdash; настоятельно рекомендуем обратиться к эндокринологу. Бот &mdash; это мост между &laquo;сдал анализы&raquo; и &laquo;попал к врачу&raquo;.</p>
+        </div>
+      </div>
+      <div class="faq-item fade-in">
+        <div class="faq-q">
+          <h3>&laquo;Я устану заполнять каждый день&raquo;</h3>
+          <div class="faq-toggle">+</div>
+        </div>
+        <div class="faq-a">
+          <p>Ввод &mdash; фото, текст или голос, как тебе удобнее. Сон подтягивается автоматически из Whoop/Oura. Весь процесс занимает 2 минуты в день. А когда видишь прогресс на графиках &mdash; пропускать уже не хочется.</p>
+        </div>
+      </div>
+      <div class="faq-item fade-in">
+        <div class="faq-q">
+          <h3>&laquo;299 рублей &mdash; а вдруг не подойдёт?&raquo;</h3>
+          <div class="faq-toggle">+</div>
+        </div>
+        <div class="faq-a">
+          <p>299&#8381; &mdash; это разовый платёж, не подписка. Одна консультация эндокринолога &mdash; 3000-5000&#8381;. Подписка на трекер питания &mdash; 699&#8381;/мес. Месяц тренера &mdash; 15 000&#8381;+. EnergyHub заменяет часть всех трёх &mdash; за стоимость чашки кофе.</p>
+        </div>
+      </div>
+      <div class="faq-item fade-in">
+        <div class="faq-q">
+          <h3>&laquo;Мои данные &mdash; это чувствительная информация&raquo;</h3>
+          <div class="faq-toggle">+</div>
+        </div>
+        <div class="faq-a">
+          <p>Данные хранятся только в боте и не передаются третьим лицам. Нет рекламы, нет продажи данных. Единственная модель монетизации &mdash; твой платёж.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- COMPETITORS -->
+<section class="section">
+  <div class="container">
+    <p class="section-label fade-in">Сравнение</p>
+    <h2 class="section-title fade-in">Почему не хватает одного приложения</h2>
+    <div class="comp-grid">
+      <div class="glass-card comp-card fade-in">
+        <div class="comp-name">Дневники питания</div>
+        <p class="comp-problem">Ручной ввод каждого продукта по граммам. 5-10 минут на приём пищи. Никакой связи с тренировками, сном или гормонами.</p>
+        <p class="comp-solution"><span>EnergyHub:</span> фото, текст или голос &mdash; готово за секунды. AI знает, что ты плохо спал, и корректирует рекомендации.</p>
+      </div>
+      <div class="glass-card comp-card fade-in">
+        <div class="comp-name">Whoop / Oura</div>
+        <p class="comp-problem">Красивые графики сна и recovery. Но что с ними делать? Приложение не знает, что ты ешь, как тренируешься и какие у тебя гормоны.</p>
+        <p class="comp-solution"><span>EnergyHub:</span> берёт данные из Whoop/Oura и превращает их в конкретные действия с учётом всей картины.</p>
+      </div>
+      <div class="glass-card comp-card fade-in">
+        <div class="comp-name">Google / ChatGPT</div>
+        <p class="comp-problem">Общие советы из интернета, без привязки к твоим данным. Не знает твой recovery, сон и питание за сегодня.</p>
+        <p class="comp-solution"><span>EnergyHub:</span> каждая рекомендация основана на твоих реальных данных, а не на средних значениях.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA FINAL -->
+<section class="cta-final" id="cta">
+  <div class="container">
+    <h2 class="fade-in">
+      299 &#8381; &mdash; и завтра утром<br>ты проснёшься с планом.
+    </h2>
+    <p class="cta-final-sub fade-in">
+      Подключи Whoop или Oura. Запиши что ел.
+      Утром получишь первое сообщение &mdash; что делать, чтобы вернуть энергию как в 18.
+    </p>
+    <a href="#" class="btn-primary fade-in">Попробовать за 299 &#8381; <span aria-hidden="true">&rarr;</span></a>
+    <p class="cta-final-note fade-in"><span>2 минуты</span> в день. Четыре ключа. Одна система. <strong>Первые 100 пользователей &mdash; по цене запуска.</strong></p>
+    <p class="cta-tagline fade-in">Управляй тем, что можешь измерить.</p>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <p>&copy; 2026 EnergyHub. Бот не заменяет врача.</p>
+  </div>
+</footer>
+
+<script>
+// Scroll animations with smart stagger per section
+const observer = new IntersectionObserver((entries) => {
+  // Group entries by parent section
+  const groups = new Map();
+  entries.forEach(entry => {
+    if (!entry.isIntersecting) return;
+    const section = entry.target.closest('.section, .statement, .cta-final') || document.body;
+    if (!groups.has(section)) groups.set(section, []);
+    groups.get(section).push(entry.target);
+  });
+
+  groups.forEach(targets => {
+    targets.forEach((el, i) => {
+      setTimeout(() => {
+        el.classList.add('visible');
+      }, i * 100);
+      observer.unobserve(el);
+    });
+  });
+}, { threshold: 0.06, rootMargin: '0px 0px -80px 0px' });
+
+document.querySelectorAll('.fade-in, .slide-left, .scale-in').forEach(el => observer.observe(el));
+
+// Nav scroll effect
+let ticking = false;
+window.addEventListener('scroll', () => {
+  if (!ticking) {
+    requestAnimationFrame(() => {
+      document.getElementById('nav').classList.toggle('scrolled', window.scrollY > 40);
+      ticking = false;
+    });
+    ticking = true;
+  }
+}, { passive: true });
+
+// FAQ accordion
+document.querySelectorAll('.faq-item').forEach(item => {
+  item.querySelector('.faq-q').addEventListener('click', () => {
+    const wasOpen = item.classList.contains('open');
+    document.querySelectorAll('.faq-item.open').forEach(i => i.classList.remove('open'));
+    if (!wasOpen) item.classList.add('open');
+  });
+});
+
+// Stagger hero elements on load with dramatic entrance
+window.addEventListener('load', () => {
+  document.querySelectorAll('.hero .fade-in').forEach((el, i) => {
+    setTimeout(() => el.classList.add('visible'), 300 + i * 150);
+  });
+});
+
+// Parallax on hero mesh (subtle mouse tracking)
+const heroMesh = document.querySelector('.hero-mesh');
+if (heroMesh && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+  document.addEventListener('mousemove', (e) => {
+    const x = (e.clientX / window.innerWidth - 0.5) * 8;
+    const y = (e.clientY / window.innerHeight - 0.5) * 8;
+    heroMesh.style.transform = `translate(${x}px, ${y}px)`;
+  }, { passive: true });
+}
+</script>
+</body>
+</html>
