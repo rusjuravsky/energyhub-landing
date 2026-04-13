@@ -1692,70 +1692,9 @@ m<!DOCTYPE html>
     </div>
     <p class="hero-price fade-in">Бесплатно. Без подписки. Без рекламы.</p>
 
-    <!-- HERO ILLUSTRATION -->
+    <!-- HERO PHOTO -->
     <div class="hero-illustration fade-in">
-      <div class="phone-mockup">
-        <div class="phone-frame">
-          <div class="phone-screen">
-            <!-- TG top bar -->
-            <div class="tg-topbar">
-              <div class="tg-back">&larr;</div>
-              <div class="tg-avatar">
-                <svg viewBox="0 0 24 24" fill="none" stroke="#030303" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
-              </div>
-              <div class="tg-info">
-                <div class="tg-name">EnergyHub Bot</div>
-                <div class="tg-status">bot</div>
-              </div>
-            </div>
-            <!-- TG messages -->
-            <div class="tg-messages">
-              <div class="tg-msg tg-msg--bot">Доброе утро! Сон: 7ч 20м. Recovery 72%&nbsp;&mdash; можно среднюю тренировку. <span class="tg-msg-time">7:30</span></div>
-              <div class="tg-msg tg-msg--bot">Не забудь: 180г белка, 80г жиров. Витамин&nbsp;D&nbsp;&mdash; 3-й день без него. <span class="tg-msg-time">7:30</span></div>
-              <div class="tg-msg tg-msg--user">На обед курица с рисом, потом зал <span class="tg-msg-time">12:41</span></div>
-              <div class="tg-msg tg-msg--bot">Записал! Белок: 52г из 180г. После зала напиши результат. <span class="tg-msg-time">12:41</span></div>
-            </div>
-            <!-- TG input -->
-            <div class="tg-inputbar">
-              <div class="tg-input-field">Сообщение...</div>
-              <div class="tg-send">
-                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Floating metrics -->
-        <div class="hero-metric metric-sleep">
-          <div class="hero-metric-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="#818cf8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
-          </div>
-          <div class="hero-metric-text">
-            <span class="hero-metric-label">Сон</span>
-            <span class="hero-metric-value">7ч 20м</span>
-          </div>
-        </div>
-
-        <div class="hero-metric metric-recovery">
-          <div class="hero-metric-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
-          </div>
-          <div class="hero-metric-text">
-            <span class="hero-metric-label">Recovery</span>
-            <span class="hero-metric-value">72%</span>
-          </div>
-        </div>
-
-        <div class="hero-metric metric-protein">
-          <div class="hero-metric-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="#ff8a3d" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
-          </div>
-          <div class="hero-metric-text">
-            <span class="hero-metric-label">Белок</span>
-            <span class="hero-metric-value">52 / 180г</span>
-          </div>
-        </div>
-      </div>
+      <img src="images/hero-photo.png" alt="Утренний ритуал здоровья" style="width: 100%; max-width: 600px; border-radius: 20px; margin-top: 48px; box-shadow: 0 24px 64px rgba(255, 107, 0, 0.1);">
     </div>
   </div>
 </section>
@@ -1792,6 +1731,39 @@ m<!DOCTYPE html>
 <section class="section" id="day">
   <div class="container">
     <p class="section-label fade-in">Как выглядит твой день</p>
+
+    <!-- Phone mockup moved here -->
+    <div class="fade-in" style="display: flex; justify-content: center; margin-bottom: 60px;">
+      <div class="phone-mockup">
+        <div class="phone-frame">
+          <div class="phone-screen">
+            <div class="tg-topbar">
+              <div class="tg-back">&larr;</div>
+              <div class="tg-avatar">
+                <svg viewBox="0 0 24 24" fill="none" stroke="#030303" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+              </div>
+              <div class="tg-info">
+                <div class="tg-name">dr.EnHub Bot</div>
+                <div class="tg-status">bot</div>
+              </div>
+            </div>
+            <div class="tg-messages">
+              <div class="tg-msg tg-msg--bot">Доброе утро! Сон: 7ч 20м. Recovery 72%&nbsp;&mdash; можно среднюю тренировку. <span class="tg-msg-time">9:00</span></div>
+              <div class="tg-msg tg-msg--bot">Не забудь: 180г белка, 80г жиров. Взвесься натощак. <span class="tg-msg-time">9:00</span></div>
+              <div class="tg-msg tg-msg--user">На обед курица с рисом, потом зал <span class="tg-msg-time">12:41</span></div>
+              <div class="tg-msg tg-msg--bot">Записал! Белок: 52г из 180г. После зала напиши результат. <span class="tg-msg-time">12:41</span></div>
+            </div>
+            <div class="tg-inputbar">
+              <div class="tg-input-field">Сообщение...</div>
+              <div class="tg-send">
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <div class="day-demo">
       <div class="glass-card chat-card fade-in">
         <div class="chat-time">Утро, 7:30</div>
